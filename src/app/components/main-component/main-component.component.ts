@@ -14,13 +14,10 @@ export class MainComponentComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event'])
   onScroll() {
-    const scroll = (document.documentElement.scrollTop || document.body.scrollTop);
-    const documentHeight = (document.documentElement.clientHeight || document.body.clientHeight);
-    const maxPosition = (document.documentElement.scrollHeight || document.body.scrollHeight);
-    const positionInDocument = (documentHeight + scroll);
+    const pos = (document.documentElement.scrollTop || document.body.scrollTop) + 1300;
+    const max = (document.documentElement.scrollHeight || document.body.scrollHeight);
 
-
-    if (positionInDocument === maxPosition) {
+    if (pos > max) {
       if (this.pokeService.loadingScroll) { return; }
       this.getPokemons();
     }
