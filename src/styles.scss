@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+@import url(https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500&display=swap);
+
+$oswald: 'Oswald', sans-serif;
+
+body {
+    font-family: $oswald;
+    font-weight: normal;
+}
+
+#loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+}

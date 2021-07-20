@@ -1,0 +1,28 @@
+<div class="text-center">
+    <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="pokeService.model">
+        <label ngbButtonLabel class="btn-danger">
+            <input ngbButton type="radio" [value]="1" (click)="checkModel('1')"> Numbers
+        </label>
+        <label ngbButtonLabel class="btn-danger">
+            <input ngbButton type="radio" [value]="2" (click)="checkModel('2')"> Types
+        </label>
+        <label ngbButtonLabel class="btn-danger">
+            <input ngbButton type="radio" [value]="3" (click)="checkModel('3')"> Generations
+        </label>
+    </div>
+</div>
+
+<div class="container">
+    <span [ngSwitch]="pokeService.model">
+    <div *ngSwitchCase="1">
+        <app-poke-card [results]="results"></app-poke-card>
+    </div>
+    <div *ngSwitchCase="2">
+        <app-types></app-types>
+    </div>
+    <div *ngSwitchCase="3">
+        <app-generations></app-generations>
+    </div>
+    </span>
+
+</div>

@@ -1,0 +1,115 @@
+<h5 class="m-3">
+    <a type="button" class="px-3 text-dark" routerLink="/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+        </svg>
+    </a>
+
+    {{ path | titlecase }}: {{ param }} - Total: <small>{{ total }}</small>
+</h5>
+
+<hr>
+
+<h3 *ngIf="main_region" class="text-center">Region: {{ main_region.name | titlecase }}</h3>
+
+<div class="row" *ngIf="damage">
+    <div class="col-10 col-md-4 mx-auto mt-3 order-md-1">
+        <p>Double damage from:</p>
+        <div class="row my-3 mx-3 mx-xl-0">
+            <ng-container *ngFor="let type of damage.double_damage_from">
+                <div class="col">
+                    <div class="icon-sm {{ type.name }}" placement="top" ngbTooltip="{{ type.name | titlecase }}">
+                        <a [routerLink]="['/type', type.name ]">
+                            <img src="assets/images/types/{{ type.name }}.svg"/>
+                        </a>
+                    </div>
+
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="col-10 col-md-4 mx-auto mt-3 order-md-4">
+        <p>Double damage to:</p>
+        <div class="row my-3 mx-3 mx-xl-0">
+            <ng-container *ngFor="let type of damage.double_damage_to">
+                <div class="col">
+                    <div class="icon-sm {{ type.name }}" placement="top" ngbTooltip="{{ type.name | titlecase }}">
+                        <a [routerLink]="['/type', type.name ]">
+                            <img src="assets/images/types/{{ type.name }}.svg"/>
+                        </a>
+                    </div>
+
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="col-10 col-md-4 mx-auto mt-3 order-md-2">
+        <p>Half damage from:</p>
+        <div class="row my-3 mx-3 mx-xl-0">
+            <ng-container *ngFor="let type of damage.half_damage_from">
+                <div class="col">
+                    <div class="icon-sm {{ type.name }}" placement="top" ngbTooltip="{{ type.name | titlecase }}">
+                        <a [routerLink]="['/type', type.name ]">
+                            <img src="assets/images/types/{{ type.name }}.svg"/>
+                        </a>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="col-10 col-md-4 mx-auto mt-3 order-md-5">
+        <p>Half damage to:</p>
+        <div class="row my-3 mx-3 mx-xl-0">
+            <ng-container *ngFor="let type of damage.half_damage_to">
+                <div class="col">
+                    <div class="icon-sm {{ type.name }}" placement="top" ngbTooltip="{{ type.name | titlecase }}">
+                        <a [routerLink]="['/type', type.name ]">
+                            <img src="assets/images/types/{{ type.name }}.svg"/>
+                        </a>
+                    </div>
+
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="col-10 col-md-4 mx-auto mt-3 order-md-3">
+        <p>No damage from:</p>
+        <div class="row my-3 mx-3 mx-xl-0">
+            <ng-container *ngFor="let type of damage.no_damage_from">
+                <div class="col">
+                    <div class="icon-sm {{ type.name }}" placement="top" ngbTooltip="{{ type.name | titlecase }}">
+                        <a [routerLink]="['/type', type.name ]">
+                            <img src="assets/images/types/{{ type.name }}.svg"/>
+                        </a>
+                    </div>
+
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="col-10 col-md-4 mx-auto mt-3 order-md-6">
+        <p>No damage to:</p>
+        <div class="row my-3 mx-3 mx-xl-0">
+            <ng-container *ngFor="let type of damage.no_damage_to">
+                <div class="col">
+                    <div class="icon-sm {{ type.name }}" placement="top" ngbTooltip="{{ type.name | titlecase }}">
+                        <a [routerLink]="['/type', type.name ]">
+                            <img src="assets/images/types/{{ type.name }}.svg"/>
+                        </a>
+                    </div>
+
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <hr>
+</div>
+
+<app-poke-card [results]="results"></app-poke-card>

@@ -1,0 +1,7 @@
+<div class="row mt-5">
+    <ng-container *ngFor="let gen of generations">
+        <div class="col-5 mx-auto p-3">
+            <button type="button" class="btn btn-dark btn-block p-3" [routerLink]="['/generation', gen.num]">{{ gen.title }}</button>
+        </div>
+    </ng-container>
+</div>

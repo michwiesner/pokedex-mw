@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-md navbar-light fixed-top" id="nav" [ngClass]="{'box-shadow': scrolled}" (scroll)="onWindowScroll($event)">
+    <div class="container">
+        <a class="navbar-brand" routerLink="/">
+            <img src="assets/images/logo.png" alt="logo" class="img-fluid">
+        </a>
+        
+        <button class="navbar-toggler" type="button" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+        aria-controls="collapseExample">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+      <div class="collapse navbar-collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link active" type="button" (click)="goTo('1')">Number</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" type="button" (click)="goTo('2')">Type</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" type="button" (click)="goTo('3')">Generation</a>
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>

@@ -1,0 +1,15 @@
+
+<div class="wrapper mt-5">
+
+    <ng-container *ngFor="let type of types">
+
+        <div class="icon {{ type.name }}" placement="bottom" ngbTooltip="{{ type.name | titlecase }}">
+            <a [routerLink]="['/type', type.name ]">
+                <img [src]="type.src"/>
+            </a>
+        </div>
+
+    </ng-container>
+    
+   
+</div>

@@ -1,0 +1,23 @@
+.middle {
+  transition: 0.7s ease;
+  opacity: 0;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.card-img-top {
+  transition: 0.7s ease;
+  backface-visibility: hidden;
+}
+
+.card:hover .card-img-top {
+  opacity: 0.2;
+}
+
+.card:hover .middle {
+  opacity: 1;
+}
