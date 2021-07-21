@@ -14,7 +14,7 @@
 <hr>
 
 <ng-container *ngIf="!noResult; else noFound">
-    <app-poke-card [results]="result"></app-poke-card>
+    <app-poke-card [results]="result" [rows]="'row-cols-2 row-cols-md-3 row-cols-xl-5'"></app-poke-card>
     
 </ng-container>
 <ng-template #noFound>
