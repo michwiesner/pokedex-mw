@@ -1,1 +1,122 @@
-<p>poke-information works!</p>
+<ng-container *ngIf="pokemon">
+    <div class="text-center">
+        <h4 class="m-3">
+            <a type="button" class="px-3 text-dark float-left" routerLink="/">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
+                    class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+                </svg>
+            </a>
+
+            {{ pokemon.pokemonBasic.name | titlecase }}
+        </h4>
+
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-10 col-md-4 mx-auto text-center">
+            <img [src]="pokemon.pokemonBasic.pic" alt="pokemon.pokemonBasic.name" class="w-75">
+            <h5>
+                {{ pokemon.pokemonBasic.name }} - <small> ({{ pokemon.pokemonBasic.id | number: '3.0-0'}})</small>
+            </h5>
+            <div class="d-flex mt-3 justify-content-center">
+                <ng-container *ngFor="let type of pokemon.types">
+                    <div class="icon-sm {{ type.type.name }} mx-2" placement="top"
+                        ngbTooltip="{{ type.type.name | titlecase }}">
+                        <a [routerLink]="['/type', type.type.name ]">
+                            <img src="assets/images/types/{{ type.type.name }}.svg" />
+                        </a>
+                    </div>
+                </ng-container>
+            </div>
+
+            <p>Generation: <a [routerLink]="['/generation', pokemon.generation.name]" class="text-dark text-decoration-none">{{ pokemon.generation.name }}</a></p>
+            <p>Shape: {{ pokemon.shape.name }}</p>
+            <p>Weight: {{ (pokemon.weight)/10 | number: '.1' }} kg</p>
+            <p>Height: {{ (pokemon.height)/10 | number: '.1' }} m</p>
+            <hr>
+            <div class="mb-3">
+                <h6>Abilities: </h6>
+                <ng-container  *ngFor="let ability of pokemon.abilities">
+                    {{ ability.ability.name | titlecase }} <br>
+                </ng-container>
+                
+            </div>
+        </div>
+
+        <div class="col-10 col-md-8 mx-auto">
+            
+            <div class="card">
+                 <div class="card-body">
+                    <div class="card-text">
+                        <h5>Statistics</h5>
+                        <ng-container *ngFor="let stat of pokemon.stats">
+                            <div class="mt-2 mx-2">
+                                {{ stat.stat.name | titlecase }}
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped bg-danger"
+                                         role="progressbar"
+                                         [style.width]="stat.base_stat + '%'"
+                                         [attr.ariaValuenow]="stat.base_stat"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100">
+                                         {{ stat.base_stat }}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </ng-container>
+                        
+                    </div> 
+                 </div>
+            </div>
+
+            <div class="card mt-3">
+                 <div class="card-body">
+                    <h5>Evolutions</h5>
+                    <ng-container *ngIf="evolutions.length > 1; else noEvolution">
+                        <div class="row-cols-xl-3">
+                            <app-poke-card [results]="evolutions" [rows]="'row-cols-xl-3'"></app-poke-card>
+                        </div>
+                        
+                    </ng-container>
+                    <ng-template #noEvolution>
+                        <div class="custom-w mx-auto pt-3">
+                            <div class="alert alert-warning text-center" role="alert">
+                                <p>This pokemon has no evolution.</p>
+                            </div>
+                        </div>
+                    </ng-template>
+                    
+                 </div>
+            </div>
+
+            <div class="card my-3">
+                <div class="card-body">
+                  <a (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed" type="button"> 
+                      <h5>Lista de movimientos &nbsp;
+                          <svg *ngIf="isCollapsed" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                          </svg>
+
+                          <svg *ngIf="!isCollapsed" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                          </svg>
+
+                      </h5>
+                    </a>
+                  <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item" *ngFor="let move of pokemon.moves">{{ move.move.name }}</li>
+                        
+                      </ul>
+                  </div> 
+                </div>
+           </div>
+        </div>
+    </div>
+
+</ng-container>

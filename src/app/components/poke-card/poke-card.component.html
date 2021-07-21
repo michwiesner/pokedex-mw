@@ -1,15 +1,14 @@
-<ng-container >
+
   <ng-container *ngIf="results.length !== 0; else loading">
-    <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 mt-5">
+    <div class="row {{ rows }} mt-5">
         <ng-container *ngFor="let pokemon of results">
-            <div class="col mb-4" >
+            <div class="col mb-4">
                 <div class="card">
-                    <a type="button">
+                    <a type="button" class="btn" [routerLink]="['/pokemon', pokemon.id]">
                       <img src="{{ pokemon.pic }}" 
                            class="card-img-top"
                            [alt]="pokemon.name"
                            onerror="this.onerror=null;this.src='assets/images/no-img.jpg'">
-                      
                       
                         <div class="middle">
                           <div class="text text-dark">
@@ -18,12 +17,15 @@
                             </svg>
                           </div>
                         </div>
+                        <div class="card-body">
+                          <h6 class="card-title text-center">
+                            {{ pokemon.name }} 
+                            <small>({{ pokemon.id | number: '3.0-0' }})</small>
+                          </h6>
+                          
+                        </div>
+                      </a>
         
-                    </a>
-                  <div class="card-body">
-                    <h5 class="card-title text-center">{{ pokemon.name }} <small>({{ pokemon.id | number: '3.0-0' }})</small> </h5>
-                    
-                  </div>
                 </div>
             </div>
     
@@ -36,8 +38,4 @@
   </ng-container>
   <ng-template #loading>
     <div class="spinner-border text-danger" id="loading"></div>
-    
   </ng-template>
-  
-</ng-container>
-

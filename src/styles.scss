@@ -20,3 +20,13 @@ body {
     height: 150px;
     margin: -75px 0 0 -75px;
 }
+
+.custom-w {
+    width: 75%;
+}
+
+@media (min-width: 576px) {
+    .custom-w {
+        width: 50%;
+    }
+}

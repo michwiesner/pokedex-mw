@@ -14,7 +14,7 @@ export class MainComponentComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event'])
   onScroll() {
-    const pos = (document.documentElement.scrollTop || document.body.scrollTop) + 1300;
+    const pos = (document.documentElement.scrollTop || document.body.scrollTop) + 1600;
     const max = (document.documentElement.scrollHeight || document.body.scrollHeight);
 
     if (pos > max) {

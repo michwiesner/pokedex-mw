@@ -1,6 +1,6 @@
 .box-shadow {
     background-color: #B90504;
-    box-shadow: 0 7px 6px -6px grey;
+    box-shadow: 0 2px 16px -2px #000;
     .navbar-nav .nav-link{
         color: #f6f6f6;
     }
@@ -12,4 +12,8 @@
 }
 .navbar-nav .nav-link{
     color: #333333;
+}
+
+.bg-custom {
+    background-color: #ffffff;
 }

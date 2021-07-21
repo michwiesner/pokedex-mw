@@ -10,6 +10,7 @@ import { PokemonService } from '../../shared/services/pokemon.service';
 export class PokeCardComponent implements OnInit {
 
   @Input() results: PokemonInit[] = [];
+  @Input() rows: any = null;
 
   constructor(public pokeService: PokemonService) {}
 

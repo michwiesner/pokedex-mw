@@ -13,7 +13,8 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  search(value) {
+  search(value: string) {
+    if ( value === '' ) { return }
     this.router.navigate(['/search', value]);
   }
 
