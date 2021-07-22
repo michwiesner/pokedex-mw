@@ -18,7 +18,8 @@
 
     <div class="row">
         <div class="col-10 col-md-4 mx-auto text-center">
-            <img [src]="pokemon.pokemonBasic.pic" alt="pokemon.pokemonBasic.name" class="w-75">
+            <img [src]="pokemon.pokemonBasic.pic" class="w-75" [alt]="pokemon.pokemonBasic.name"
+            onerror="this.onerror=null;this.src='assets/images/no-img.jpg'">
             <h5>
                 {{ pokemon.pokemonBasic.name }} - <small> ({{ pokemon.pokemonBasic.id | number: '3.0-0'}})</small>
             </h5>
@@ -27,14 +28,14 @@
                     <div class="icon-sm {{ type.type.name }} mx-2" placement="top"
                         ngbTooltip="{{ type.type.name | titlecase }}">
                         <a [routerLink]="['/type', type.type.name ]">
-                            <img src="assets/images/types/{{ type.type.name }}.svg" />
+                            <img src="assets/images/types/{{ type.type.name }}.svg"  />
                         </a>
                     </div>
                 </ng-container>
             </div>
 
-            <p>Generation: <a [routerLink]="['/generation', pokemon.generation.name]" class="text-dark text-decoration-none">{{ pokemon.generation.name }}</a></p>
-            <p>Shape: {{ pokemon.shape.name }}</p>
+            <p *ngIf="pokemon.generation">Generation: <a [routerLink]="['/generation', pokemon.generation.name]" class="text-dark text-decoration-none">{{ pokemon.generation.name }}</a></p>
+            <p *ngIf="pokemon.shape">Shape: {{ pokemon.shape.name }}</p>
             <p>Weight: {{ (pokemon.weight)/10 | number: '.1' }} kg</p>
             <p>Height: {{ (pokemon.height)/10 | number: '.1' }} m</p>
             <hr>

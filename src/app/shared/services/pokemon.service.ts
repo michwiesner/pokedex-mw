@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { PokemonInit, AllPokemonResponse, PokemonDetails, pokemonShort, PokemonSpecies, EvolutionChain, Chain, SmallPokemon } from '../models/pokemon-detail';
 import { TypesDetails } from '../models/type-details';
 import { GenerationDetails } from '../models/generation-details';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -90,7 +90,7 @@ export class PokemonService {
     const url1 = `${this.api_url}/pokemon/${id}/`;
     const pokemon1 = this.http.get<any>(url1).pipe(map(this.getAllPokeInfo,this));
     const url2 = `${this.api_url}/pokemon-species/${id}/`;
-    const pokemon2 = this.http.get<any>(url2).pipe(map(this.getPokemonSpecieInfo));
+    const pokemon2 = this.http.get<any>(url2).pipe(map(this.getPokemonSpecieInfo)).pipe(catchError(error => of(error)));
 
     return forkJoin([pokemon1, pokemon2]);
 
@@ -119,10 +119,16 @@ export class PokemonService {
 
   // Other info related to single pokemon
   getPokemonSpecieInfo(result: PokemonSpecies) {
-    const pokemon: any = {
-      evolution_chain: result.evolution_chain,
-      generation: result.generation,
-      shape: result.shape
+    let pokemon: any;
+    if (result) {
+      pokemon = {
+        evolution_chain: result.evolution_chain,
+        generation: result.generation,
+        shape: result.shape
+      }
+
+    } else {
+      pokemon = null;
     }
     return pokemon;
   }

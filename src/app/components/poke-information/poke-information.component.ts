@@ -27,9 +27,13 @@ export class PokeInformationComponent implements OnInit {
   getPokemon(id: string) {
     this.pokemon = null;
     this.pokeService.getPokeDetails(id).subscribe( res => {
-      this.pokemon = Object.assign( res[0], res[1]);
-      // console.log(this.pokemon);
-      this.getEvolutions(this.pokemon.evolution_chain.url);
+      if (!res[1].error) {
+        this.pokemon = Object.assign( res[0], res[1]);
+        this.getEvolutions(this.pokemon.evolution_chain.url);
+      } else {
+        this.pokemon = Object.assign( res[0]);
+      }
+
     });
 
   }
