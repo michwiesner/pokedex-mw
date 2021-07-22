@@ -1,4 +1,4 @@
-<ng-container *ngIf="pokemon">
+<ng-container *ngIf="pokemon; else loading">
     <div class="text-center">
         <h4 class="m-3">
             <a type="button" class="px-3 text-dark float-left" routerLink="/">
@@ -78,10 +78,7 @@
                  <div class="card-body">
                     <h5>Evolutions</h5>
                     <ng-container *ngIf="evolutions.length > 1; else noEvolution">
-                        <div class="row-cols-xl-3">
-                            <app-poke-card [results]="evolutions" [rows]="'row-cols-xl-3'"></app-poke-card>
-                        </div>
-                        
+                        <app-poke-card [results]="evolutions" [rows]="'row-cols-xl-3'"></app-poke-card>
                     </ng-container>
                     <ng-template #noEvolution>
                         <div class="custom-w mx-auto pt-3">
@@ -118,5 +115,7 @@
            </div>
         </div>
     </div>
-
 </ng-container>
+<ng-template #loading>
+    <div class="spinner-border text-danger" id="loading"></div>
+</ng-template>

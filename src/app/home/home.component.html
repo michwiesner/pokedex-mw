@@ -3,19 +3,22 @@
 <div class="container custom-p">
     <div class="custom-w mx-auto">
         <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
-            <div class="input-group">
-                <input type="search" placeholder="Search pokemon by name or id" (keyup.enter)="search(searchText.value)" aria-describedby="button-addon1"
-                    class="form-control border-0 bg-light" #searchText>
-                <div class="input-group-append">
-                    <button id="button-addon1" type="submit" class="btn btn-link text-dark" (click)="search(searchText.value)">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-search" viewBox="0 0 16 16">
-                            <path
-                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                        </svg>
-                    </button>
+            <form [formGroup]="searchBox" (ngSubmit)="submit()">
+                <div class="input-group">
+                    <input type="search" placeholder="Search pokemon by name or id" formControlName="search" aria-describedby="button-addon1"
+                        class="form-control border-0 bg-light">
+                    <div class="input-group-append">
+                        <button id="button-addon1" type="submit" class="btn btn-link text-dark">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-search" viewBox="0 0 16 16">
+                                <path
+                                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-            </div>
+
+            </form>
         </div>
     </div>
 

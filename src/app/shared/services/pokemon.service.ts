@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { PokemonInit, AllPokemonResponse, PokemonDetails, pokemonShort, PokemonSpecies, EvolutionChain, Chain } from '../models/pokemon-detail';
+import { PokemonInit, AllPokemonResponse, PokemonDetails, pokemonShort, PokemonSpecies, EvolutionChain, Chain, SmallPokemon } from '../models/pokemon-detail';
 import { TypesDetails } from '../models/type-details';
 import { GenerationDetails } from '../models/generation-details';
 import { forkJoin } from 'rxjs';
@@ -23,12 +23,17 @@ export class PokemonService {
 
     next_url ? (url = next_url, this.loadingScroll = true) : url = `${this.api_url}/pokemon?limit=10&offset=0`;
 
-    return this.http.get<AllPokemonResponse>(url).pipe(map(this.getPokemonsListInfo));
+    return this.http.get<AllPokemonResponse>(url).pipe(map((res) => {
+      const pokemonList: PokemonInit[] = this.pokeInfo(res.results);
+      return {pokemonList, next: res.next}
+    }));
     
   }
 
-  getPokemonsListInfo(res: AllPokemonResponse) {
-    const pokemonList: PokemonInit[] = res.results.map( pokemon => {
+  // Get basic info if pokemon have url
+  pokeInfo(arr: SmallPokemon[] ) {
+
+    return arr.map( pokemon => {
 
       const urlArr = pokemon.url.split('/');
       const id  = urlArr[6];
@@ -37,7 +42,16 @@ export class PokemonService {
       return { id, pic, name: pokemon.name }
     });
 
-    return {pokemonList, next: res.next};
+  }
+
+  // Get basic info if pokemon doesn't have url
+  pokeInfoById(pokemon: any ) {
+
+    const id  = pokemon.id.toString();
+    const name = pokemon.name;
+    const pic = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${ id }.png`;
+
+    return { id, pic, name }
 
   }
 
@@ -47,6 +61,7 @@ export class PokemonService {
     return this.http.get<TypesDetails>(url).pipe(map(this.getPokeInfoByType));
   }
 
+  // Result of type: pokemon, total of results, list of damage according types
   getPokeInfoByType(res: TypesDetails) {
     const pokemonList: PokemonInit[] = res.pokemon.map( pokemon => {
 
@@ -58,34 +73,22 @@ export class PokemonService {
     });
 
     return {pokemonList, total: res.pokemon.length, damage: res.damage_relations };
-
   }
 
   // Get list pokemons by generation
   getPokeGeneration(genNum: string) {
     const url = `${this.api_url}/generation/${genNum}`;
-    return this.http.get<GenerationDetails>(url).pipe(map(this.getPokeInfoByGen));
-
-  }
-
-  getPokeInfoByGen(res: GenerationDetails) {
-    const pokemonList: PokemonInit[] = res.pokemon_species.map( pokemon => {
-
-      const urlArr = pokemon.url.split('/');
-      const id  = urlArr[6];
-      const pic = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${ id }.png`;
-
-      return { id, pic, name: pokemon.name };
-    });
-
-    return {pokemonList, total: res.pokemon_species.length, main_region: res.main_region };
+    return this.http.get<GenerationDetails>(url).pipe(map((res) => {
+      const pokemonList: PokemonInit[] = this.pokeInfo(res.pokemon_species);
+      return {pokemonList, total: res.pokemon_species.length, main_region: res.main_region };
+    }));
 
   }
 
   // Get single pokemon information
   getPokeDetails(id: string) {
     const url1 = `${this.api_url}/pokemon/${id}/`;
-    const pokemon1 = this.http.get<any>(url1).pipe(map(this.getAllPokeInfo));
+    const pokemon1 = this.http.get<any>(url1).pipe(map(this.getAllPokeInfo,this));
     const url2 = `${this.api_url}/pokemon-species/${id}/`;
     const pokemon2 = this.http.get<any>(url2).pipe(map(this.getPokemonSpecieInfo));
 
@@ -93,33 +96,14 @@ export class PokemonService {
 
   }
 
-  // Search pokemon by number or name
-  searchPokemon(term: string) {
-    const url = `${this.api_url}/pokemon/${term}/`;
-    // this.getPokeDetails(term).subscribe();
-    return this.http.get<any>(url).pipe(map(pokemon => {
-      const pokemonBasic: PokemonInit = {
-        id: pokemon.id.toString(),
-        name: pokemon.name,
-        pic: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${ pokemon.id }.png`
-      }
-      return pokemonBasic;
-    } ));
-
-  }
-
+  // Result of single pokemon
   getAllPokeInfo(pokemon: PokemonDetails) {
     let result: pokemonShort;
-
+    const {id, name} = pokemon;
     if (pokemon) {
-      const pokemonBasic: PokemonInit = {
-        id: pokemon.id.toString(),
-        name: pokemon.name,
-        pic: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${ pokemon.id }.png`
-      }
 
       result = {
-        pokemonBasic,
+        pokemonBasic:  this.pokeInfoById({id, name}),
         moves: pokemon.moves,
         stats: pokemon.stats,
         weight: pokemon.weight, 
@@ -133,6 +117,7 @@ export class PokemonService {
     return result;
   }
 
+  // Other info related to single pokemon
   getPokemonSpecieInfo(result: PokemonSpecies) {
     const pokemon: any = {
       evolution_chain: result.evolution_chain,
@@ -140,6 +125,18 @@ export class PokemonService {
       shape: result.shape
     }
     return pokemon;
+  }
+
+
+  // Search pokemon by number or name
+  searchPokemon(term: string) {
+    const url = `${this.api_url}/pokemon/${term}/`;
+    // this.getPokeDetails(term).subscribe();
+    return this.http.get<any>(url).pipe(map(pokemon => {
+      const {id, name} = pokemon;
+      return this.pokeInfoById({id, name});
+    } ));
+
   }
 
   getEvolutionChain(url: string) {
@@ -155,10 +152,8 @@ export class PokemonService {
   }
 
   getEvolution(chain: Chain) {
-    const urlArr = chain.species.url.split('/');
-    const id  = urlArr[6];
-    const pic = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${ id }.png`;
-    this.evolutions.push({ id, pic, name: chain.species.name })
+    const pokeInfo = this.pokeInfo([chain.species]);
+    this.evolutions.push(pokeInfo[0]);
 
     if (chain.evolves_to.length) {
       this.getEvolution(chain.evolves_to[0]);

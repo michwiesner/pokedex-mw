@@ -34,9 +34,6 @@ export class ResultsComponent implements OnInit {
         case 'generation':
           this.getPokemonByGeneration(params[1].path);
           break;
-        case 'search':
-          this.getPokemonBySearch(params[1].path);
-          break;
         default:
           break;
       }
@@ -61,12 +58,6 @@ export class ResultsComponent implements OnInit {
       this.total = res.total;
       this.main_region = res.main_region;
     })
-
-  }
-
-  getPokemonBySearch(text: string) {
-    this.results = [];
-    this.pokeService.searchPokemon(text).subscribe();
 
   }
 

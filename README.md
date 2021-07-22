@@ -1,3 +1,6 @@
+
+This project is hosted in [Pokedex-mw](https://pokedex-mw.netlify.app/)
+
 # Pokedex
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
@@ -5,6 +8,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+Or use `ng serve -o` and the app will automatically open in your browser after serve.
 
 ## Code scaffolding
 
