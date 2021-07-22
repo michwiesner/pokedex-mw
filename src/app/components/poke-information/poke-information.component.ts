@@ -41,7 +41,7 @@ export class PokeInformationComponent implements OnInit {
   getEvolutions(url: string) {
     this.pokeService.getEvolutionChain(url).subscribe(res => {
       this.evolutions = res;
-    })
+    });
   }
 
 }

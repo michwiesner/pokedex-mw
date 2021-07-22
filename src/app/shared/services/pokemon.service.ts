@@ -148,7 +148,7 @@ export class PokemonService {
   getEvolutionChain(url: string) {
 
     return this.http.get<EvolutionChain>(url).pipe(map(res => {
-      this.evolutions = [] 
+      this.evolutions = [];
 
       this.getEvolution(res.chain);
 
@@ -162,7 +162,9 @@ export class PokemonService {
     this.evolutions.push(pokeInfo[0]);
 
     if (chain.evolves_to.length) {
-      this.getEvolution(chain.evolves_to[0]);
+      for (let i = 0; i < chain.evolves_to.length; i++) {
+        this.getEvolution(chain.evolves_to[i]);
+      }
     }
 
   }
